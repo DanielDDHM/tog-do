@@ -1,18 +1,9 @@
 version: '3.4'
 
 services:
-  # togdo:
-  #   image: togdo
-  #   build:
-  #     context: .
-  #     dockerfile: ./Dockerfile
-  #   environment:
-  #     NODE_ENV: production
-  #   ports:
-  #     - 3000:3000
-
   db:
     image: mysql:8.0
+    container_name: db
     restart: always
     environment:
       MYSQL_DATABASE: 'tog_do_db'
@@ -30,7 +21,21 @@ services:
       - '3306'
       # Where our data will be persisted
     volumes:
-      - my-db:/var/lib/mysql
-# Names our volume
-volumes:
-  my-db:
+      - /var/lib/mysql
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  togdo:
+     image: togdo
+     build:
+       context: .
+       dockerfile: ./Dockerfile
+     environment:
+       NODE_ENV: production
+     ports:
+       - 3000:3000

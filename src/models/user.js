@@ -1,5 +1,5 @@
 import {DataTypes} from 'sequelize';
-import {sql} from '../utils/db'
+import {sql} from '../utils/db.js'
 
 const User = sql.define('User', {
     name: {type: DataTypes.STRING, allowNull: false},
@@ -7,6 +7,5 @@ const User = sql.define('User', {
     password: {type: DataTypes.STRING, allowNull: false},
     photo: {type: DataTypes.STRING, allowNull: false}
 })
-
 
 export default User;
