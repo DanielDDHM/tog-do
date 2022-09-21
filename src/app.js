@@ -1,7 +1,6 @@
 import e from 'express';
 import 'dotenv/config'
 import { authDb } from './utils/db.js';
-import User from './models/user.js';
 
 const {PORT} = process.env
 

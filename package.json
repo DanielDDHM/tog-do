@@ -19,9 +19,13 @@
   },
   "devDependencies": {
     "eslint": "^8.23.1",
+    "eslint-config-prettier": "^8.5.0",
     "prettier": "^2.7.1"
   },
   "scripts": {
-    "dev": "nodemon src/app.js"
+    "dev": "nodemon src/app.js",
+    "lint:fix": "eslint --ext js src --fix",
+    "docker:up": "docker-compose -f docker-compose.yml up -d",
+    "docker:down": "docker-compose down"
   }
 }
