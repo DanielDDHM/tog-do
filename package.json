@@ -25,6 +25,7 @@
   "scripts": {
     "dev": "nodemon src/app.js",
     "lint:fix": "eslint --ext js src --fix",
+    "prettier": "prettier --write .",
     "docker:up": "docker-compose -f docker-compose.yml up -d",
     "docker:down": "docker-compose down"
   }

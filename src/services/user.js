@@ -1,15 +1,19 @@
-export const getUser = () => {
+export const getUser = async () => {
+  try {
+  } catch (error) {}
+};
 
-}
+export const postUser = async () => {
+  try {
+  } catch (error) {}
+};
 
-export const postUser = () => {
-  
-}
+export const putUser = async () => {
+  try {
+  } catch (error) {}
+};
 
-export const putUser = () => {
-  
-}
-
-export const deleteUser = () => {
-  
-}
+export const deleteUser = async () => {
+  try {
+  } catch (error) {}
+};
