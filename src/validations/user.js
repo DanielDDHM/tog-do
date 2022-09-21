@@ -1,6 +1,16 @@
 import Joi from "joi";
 
-const userValidation = Joi.object({
+const getUserVal = Joi.object({
+  id: Joi.string()
+  .min(3)
+  .max(30)
+  .optional(),
+  email: Joi.string()
+  .email({minDomainSegments: 2, tlds: ['com', 'net']})
+  .optional(),
+});
+
+const postUserVal = Joi.object({
   name: Joi.string()
   .alphanum()
   .min(3)
@@ -16,10 +26,9 @@ const userValidation = Joi.object({
   .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
   .required(),
   photo: Joi.string()
-  .alphanum()
   .min(3)
   .max(30)
   .required(false),
 })
 
-export default userValidation
+export {getUserVal, postUserVal}

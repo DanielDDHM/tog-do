@@ -2,6 +2,7 @@ import e from "express";
 import "dotenv/config";
 import cors from "cors";
 import { sql } from "./utils/db.js";
+import router from "./routes/index.js";
 // eslint-disable-next-line no-unused-vars
 import { Boards, Projects, User } from "../src/models/index.js";
 
@@ -10,6 +11,9 @@ const { PORT } = process.env;
 const app = e();
 
 app.use(cors());
+app.use(e.json());
+
+app.use("/v1", router);
 
 const start = async () => {
   try {
