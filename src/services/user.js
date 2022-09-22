@@ -1,5 +1,5 @@
 import { Op } from "sequelize";
-import { User } from "../models/user.js";
+import User from "../models/user.js";
 import { getUserVal, postUserVal } from "../validations/user.js";
 
 export const getUser = async (req, res) => {

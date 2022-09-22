@@ -1,9 +1,8 @@
 import Joi from "joi";
 
 const getUserVal = Joi.object({
-  id: Joi.string()
-  .min(3)
-  .max(30)
+  id: Joi
+  .number()
   .optional(),
   email: Joi.string()
   .email({minDomainSegments: 2, tlds: ['com', 'net']})
