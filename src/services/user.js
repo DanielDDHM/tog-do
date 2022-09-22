@@ -1,4 +1,5 @@
 import { Op } from "sequelize";
+import { findById, findByEmail } from "../helpers/find.js";
 import User from "../models/user.js";
 import { getUserVal, postUserVal, putUserVal } from "../validations/user.js";
 
@@ -26,7 +27,7 @@ export const getUser = async (req, res) => {
 
     res.status(200).send({ result, total });
   } catch (error) {
-    res.status(error.StatusCode || 500).send(error);
+    res.status(500).send(error.message);
   }
 };
 
@@ -35,6 +36,12 @@ export const postUser = async (req, res) => {
     const { name, email, password, photo } = req.body;
 
     await postUserVal.validateAsync(req.body);
+
+    const user = await findByEmail("User", email);
+
+    if (user) {
+      throw new Error("User Exists");
+    }
 
     const result = await User.create({
       name,
@@ -45,7 +52,7 @@ export const postUser = async (req, res) => {
 
     res.status(200).send(result);
   } catch (error) {
-    res.status(error.StatusCode || 500).send(error);
+    res.status(500).send({ error: error?.message });
   }
 };
 
@@ -70,7 +77,7 @@ export const putUser = async (req, res) => {
 
     res.status(200).send({ message: `User ${result} has Been Updated` });
   } catch (error) {
-    res.status(error.StatusCode || 500).send(error?.messages);
+    res.status(500).send(error?.message);
   }
 };
 
@@ -80,13 +87,13 @@ export const patchUser = async (req, res) => {
       params: { id },
     } = req;
 
-    const user = await User.findOne({ where: { id } });
+    const user = await findById("User", id);
 
     const result = await User.update({ isActive: !user.isActive }, { where: { id } });
 
     res.status(200).send(result);
   } catch (error) {
-    res.status(error.StatusCode || 500).send(error?.messages);
+    res.status(500).send(error?.message);
   }
 };
 
@@ -96,10 +103,16 @@ export const deleteUser = async (req, res) => {
       params: { id },
     } = req;
 
+    const user = await findById("User", id);
+
+    if (!user) {
+      throw new Error("User Dont Exists");
+    }
+
     await User.destroy({ where: { id } });
 
     res.status(200).send({ message: `Success on delete User ${id}` });
   } catch (error) {
-    res.status(error.StatusCode || 500).send(error?.messages);
+    res.status(500).send({ error: error?.message });
   }
 };
