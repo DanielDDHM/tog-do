@@ -1,6 +1,7 @@
 import { Op } from "sequelize";
 import { findById, findByEmail } from "../helpers/find.js";
 import User from "../models/user.js";
+import { idVal } from "../validations/generic.js";
 import { getUserVal, postUserVal, putUserVal } from "../validations/user.js";
 
 export const getUser = async (req, res) => {
@@ -87,6 +88,8 @@ export const patchUser = async (req, res) => {
       params: { id },
     } = req;
 
+    await idVal.validateAsync(id);
+
     const user = await findById("User", id);
 
     const result = await User.update({ isActive: !user.isActive }, { where: { id } });
@@ -102,6 +105,8 @@ export const deleteUser = async (req, res) => {
     const {
       params: { id },
     } = req;
+
+    await idVal.validateAsync(id);
 
     const user = await findById("User", id);
 

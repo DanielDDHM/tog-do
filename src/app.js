@@ -23,7 +23,7 @@ app.get("/health", (req, res) => {
 const start = async () => {
   try {
     await sql.authenticate().then();
-    await sql.sync({ alter: true }).then(() => console.log("DB HAS SYNC"));
+    await sql.sync({ force: true }).then(() => console.log("DB HAS SYNC"));
   } catch (e) {
     throw new Error(e);
   }
