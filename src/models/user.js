@@ -7,6 +7,7 @@ const User = sql.define("User", {
   email: { type: DataTypes.STRING, allowNull: false },
   password: { type: DataTypes.STRING, allowNull: false },
   photo: { type: DataTypes.STRING, allowNull: false },
+  isActive: { type: DataTypes.BOOLEAN, defaultValue: true },
 });
 
 export default User;

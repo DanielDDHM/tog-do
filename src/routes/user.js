@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { deleteUser, getUser, postUser, putUser } from "../services/user.js";
+import { deleteUser, getUser, patchUser, postUser, putUser } from "../services/user.js";
 
 const router = Router();
 
@@ -12,6 +12,9 @@ router
   })
   .put("/:id", async (req, res) => {
     await putUser(req, res);
+  })
+  .patch("/:id", async (req, res) => {
+    await patchUser(req, res);
   })
   .delete("/:id", async (req, res) => {
     await deleteUser(req, res);

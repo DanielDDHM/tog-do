@@ -1,6 +1,6 @@
 import { Op } from "sequelize";
 import User from "../models/user.js";
-import { getUserVal, postUserVal } from "../validations/user.js";
+import { getUserVal, postUserVal, putUserVal } from "../validations/user.js";
 
 export const getUser = async (req, res) => {
   try {
@@ -8,15 +8,23 @@ export const getUser = async (req, res) => {
 
     await getUserVal.validateAsync(req.query);
 
-    const query = id || email;
+    const params =
+      id && !email
+        ? { id }
+        : email && !id
+        ? { email }
+        : email && id
+        ? { [Op.or]: { email, id } }
+        : {};
 
-    const result = query
-      ? await User.findAll({
-          where: id && !email ? { id } : email && !id ? { email } : { [Op.or]: { email, id } },
-        })
-      : await User.findAll();
+    const [result, total] = await Promise.all([
+      User.findAll({
+        where: params,
+      }),
+      User.count({ where: params }),
+    ]);
 
-    res.status(200).send(result);
+    res.status(200).send({ result, total });
   } catch (error) {
     res.status(error.StatusCode || 500).send(error);
   }
@@ -43,7 +51,40 @@ export const postUser = async (req, res) => {
 
 export const putUser = async (req, res) => {
   try {
-    res.status(200).send();
+    const {
+      body: { name, email, password, photo },
+      params: { id },
+    } = req;
+
+    await putUserVal.validateAsync({ name, email, password, photo, id });
+
+    const result = await User.update(
+      {
+        name,
+        email,
+        password,
+        photo,
+      },
+      { where: { id } },
+    );
+
+    res.status(200).send({ message: `User ${result} has Been Updated` });
+  } catch (error) {
+    res.status(error.StatusCode || 500).send(error?.messages);
+  }
+};
+
+export const patchUser = async (req, res) => {
+  try {
+    const {
+      params: { id },
+    } = req;
+
+    const user = await User.findOne({ where: { id } });
+
+    const result = await User.update({ isActive: !user.isActive }, { where: { id } });
+
+    res.status(200).send(result);
   } catch (error) {
     res.status(error.StatusCode || 500).send(error?.messages);
   }
@@ -51,7 +92,13 @@ export const putUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    res.status(200).send();
+    const {
+      params: { id },
+    } = req;
+
+    await User.destroy({ where: { id } });
+
+    res.status(200).send({ message: `Success on delete User ${id}` });
   } catch (error) {
     res.status(error.StatusCode || 500).send(error?.messages);
   }

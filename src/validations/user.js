@@ -27,7 +27,31 @@ const postUserVal = Joi.object({
   photo: Joi.string()
   .min(3)
   .max(30)
-  .required(false),
+  .optional(),
 })
 
-export {getUserVal, postUserVal}
+const putUserVal = Joi.object({
+  id: Joi
+  .number()
+  .required(),
+  name: Joi.string()
+  .alphanum()
+  .min(3)
+  .max(30)
+  .optional(),
+  email: Joi.string()
+  .email({minDomainSegments: 2, tlds: ['com', 'net']})
+  .optional(),
+  password: Joi.string()
+  .alphanum()
+  .min(3)
+  .max(30)
+  .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$'))
+  .optional(),
+  photo: Joi.string()
+  .min(3)
+  .max(30)
+  .optional(),
+})
+
+export {getUserVal, postUserVal, putUserVal}
