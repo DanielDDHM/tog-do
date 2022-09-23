@@ -1,18 +1,18 @@
-import User from "./user.js";
-import Projects from "./projects.js";
-import Boards from "./boards.js";
-import Cards from "./cards.js";
-import Comments from "./comments.js";
-import Workspace from "./workspace.js";
+import User from './user.js';
+import Projects from './projects.js';
+import Boards from './boards.js';
+import Cards from './cards.js';
+import Comments from './comments.js';
+import Workspace from './workspace.js';
 
 // TODO: Verify Relations
 
 User.belongsToMany(Workspace, {
-  through: "workspace_users",
+  through: 'workspace_users',
 });
 
 Workspace.belongsToMany(User, {
-  through: "workspace_users",
+  through: 'workspace_users',
 });
 
 Workspace.hasMany(Boards);

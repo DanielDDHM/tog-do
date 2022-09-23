@@ -1,10 +1,10 @@
-import { DataTypes } from "sequelize";
-import { sql } from "../utils/db.js";
+import { DataTypes } from 'sequelize';
+import { sql } from '../utils/db.js';
 
-const Workspace = sql.define("Workspace", {
+const Workspace = sql.define('Workspace', {
   id: { type: DataTypes.INTEGER, autoIncrement: true, allowNull: false, primaryKey: true },
   name: { type: DataTypes.STRING, allowNull: false },
-  background_image: { type: DataTypes.STRING, allowNull: false },
+  background_image: { type: DataTypes.STRING, allowNull: false, defaultValue: 'None' },
   board_type: { type: DataTypes.STRING, allowNull: false },
   starred: { type: DataTypes.BOOLEAN, defaultValue: false },
 });

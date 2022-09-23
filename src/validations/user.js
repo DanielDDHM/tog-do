@@ -28,6 +28,10 @@ export const postUserVal = Joi.object({
   .min(3)
   .max(30)
   .optional(),
+  theme: Joi.string()
+  .min(3)
+  .max(30)
+  .optional(),
 })
 
 export const putUserVal = Joi.object({
@@ -52,4 +56,8 @@ export const putUserVal = Joi.object({
   .min(3)
   .max(30)
   .optional(),
+  theme: Joi.string()
+  .min(3)
+  .max(30)
+  .optional()
 })

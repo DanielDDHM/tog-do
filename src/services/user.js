@@ -1,7 +1,7 @@
-import { Op } from "sequelize";
-import { findById, findByEmail } from "../helpers/index.js";
-import { User } from "../models/index.js";
-import { getUserVal, postUserVal, putUserVal, idVal } from "../validations/index.js";
+import { Op } from 'sequelize';
+import { findById, findByEmail } from '../helpers/index.js';
+import { User } from '../models/index.js';
+import { getUserVal, postUserVal, putUserVal, idVal } from '../validations/index.js';
 
 export const getUser = async (req, res) => {
   try {
@@ -37,10 +37,10 @@ export const postUser = async (req, res) => {
 
     await postUserVal.validateAsync(req.body);
 
-    const user = await findByEmail("User", email);
+    const user = await findByEmail('User', email);
 
     if (user) {
-      throw new Error("User Exists");
+      throw new Error('User Exists');
     }
 
     const result = await User.create({
@@ -89,7 +89,7 @@ export const patchUser = async (req, res) => {
 
     await idVal.validateAsync(id);
 
-    const user = await findById("User", id);
+    const user = await findById('User', id);
 
     const result = await User.update({ isActive: !user.isActive }, { where: { id } });
 
@@ -107,10 +107,10 @@ export const deleteUser = async (req, res) => {
 
     await idVal.validateAsync(id);
 
-    const user = await findById("User", id);
+    const user = await findById('User', id);
 
     if (!user) {
-      throw new Error("User Dont Exists");
+      throw new Error('User Dont Exists');
     }
 
     await User.destroy({ where: { id } });
