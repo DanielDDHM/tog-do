@@ -1,7 +1,7 @@
 import e from 'express';
 import 'dotenv/config';
 import cors from 'cors';
-import { sql } from './utils/index.js';
+import { sql, wss } from './utils/index.js';
 import router from './routes/index.js';
 
 // eslint-disable-next-line no-unused-vars
@@ -23,10 +23,12 @@ app.get('/health', (req, res) => {
 const start = async () => {
   try {
     await sql.authenticate().then();
-    await sql.sync().then(() => console.log('DB HAS SYNC'));
+    await sql.sync().then(() => console.log('DB HAS SYNC')); //{ force: true } If Necessary
   } catch (e) {
     throw new Error(e);
   }
 };
 
-start().then(app.listen(PORT, () => console.log(`app is running on PORT: ${PORT}`)));
+const srv = app.listen(PORT, () => console.log(`app is running on PORT: ${PORT}`));
+
+start().then(wss(srv));

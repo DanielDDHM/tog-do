@@ -18,10 +18,7 @@ export const postWsVal = Joi.object({
   .required(),
   boardType: Joi
   .string()
-  .required(),
-  starred: Joi
-  .boolean()
-  .optional(),
+  .required()
 })
 
 export const putWsVal = Joi.object({

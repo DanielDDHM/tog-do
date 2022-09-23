@@ -7,6 +7,7 @@ const Workspace = sql.define('Workspace', {
   background_image: { type: DataTypes.STRING, allowNull: false, defaultValue: 'None' },
   board_type: { type: DataTypes.STRING, allowNull: false },
   starred: { type: DataTypes.BOOLEAN, defaultValue: false },
+  isActive: { type: DataTypes.BOOLEAN, defaultValue: true },
 });
 
 export default Workspace;
