@@ -1,26 +1,34 @@
 /* eslint-disable no-unused-vars */
 import { User, Workspace } from "../models/index.js";
 
-const findById = async (mod, value) => {
-  const result = await eval(mod).findOne({
-    where: {
-      id: value,
-    },
-  });
+export const findById = async (mod, value) => {
+  try {
+    console.log(value);
 
-  return result;
+    const result = await eval(mod).findOne({
+      where: {
+        id: value,
+      },
+    });
+
+    return result;
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 
-const findByEmail = async (mod, value) => {
-  const query = {
-    email: value,
-  };
+export const findByEmail = async (mod, value) => {
+  try {
+    const query = {
+      email: value,
+    };
 
-  const result = await eval(mod).findOne({
-    where: query,
-  });
+    const result = await eval(mod).findOne({
+      where: query,
+    });
 
-  return result;
+    return result;
+  } catch (error) {
+    throw new Error(error);
+  }
 };
-
-export { findById, findByEmail };

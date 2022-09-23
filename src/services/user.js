@@ -1,8 +1,7 @@
 import { Op } from "sequelize";
-import { findById, findByEmail } from "../helpers/find.js";
-import User from "../models/user.js";
-import { idVal } from "../validations/generic.js";
-import { getUserVal, postUserVal, putUserVal } from "../validations/user.js";
+import { findById, findByEmail } from "../helpers/index.js";
+import { User } from "../models/index.js";
+import { getUserVal, postUserVal, putUserVal, idVal } from "../validations/index.js";
 
 export const getUser = async (req, res) => {
   try {

@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const getUserVal = Joi.object({
+export const getUserVal = Joi.object({
   id: Joi
   .number()
   .optional(),
@@ -9,7 +9,7 @@ const getUserVal = Joi.object({
   .optional(),
 });
 
-const postUserVal = Joi.object({
+export const postUserVal = Joi.object({
   name: Joi.string()
   .alphanum()
   .min(3)
@@ -30,7 +30,7 @@ const postUserVal = Joi.object({
   .optional(),
 })
 
-const putUserVal = Joi.object({
+export const putUserVal = Joi.object({
   id: Joi
   .number()
   .required(),
@@ -53,5 +53,3 @@ const putUserVal = Joi.object({
   .max(30)
   .optional(),
 })
-
-export {getUserVal, postUserVal, putUserVal}

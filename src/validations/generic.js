@@ -1,9 +1,5 @@
 import Joi from "joi";
 
-const idVal = Joi.object({
-  id: Joi
-  .number()
-  .required(),
-});
-
-export {idVal}
+export const idVal = Joi
+.number()
+.required();
