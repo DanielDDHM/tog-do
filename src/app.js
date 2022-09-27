@@ -29,6 +29,6 @@ const start = async () => {
   }
 };
 
-const srv = app.listen(PORT, () => console.log(`app is running on PORT: ${PORT}`));
+const srv = app.listen(PORT || 3000, () => console.log(`app is running on PORT: ${PORT || 3000}`));
 
 start().then(wss(srv));
