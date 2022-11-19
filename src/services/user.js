@@ -1,28 +1,21 @@
-import { Op } from 'sequelize';
 import { findById, findByEmail } from '../helpers/index.js';
 import { User } from '../models/index.js';
 import { getUserVal, postUserVal, putUserVal, idVal } from '../validations/index.js';
 
 export const getUser = async (req, res) => {
   try {
-    const { id, email } = req.query;
-
     await getUserVal.validateAsync(req.query);
 
-    const params =
-      id && !email
-        ? { id }
-        : email && !id
-        ? { email }
-        : email && id
-        ? { [Op.or]: { email, id } }
-        : {};
+    let where = {}
+    Object.entries(req.query).map(([key, value]) => {
+      if (value) {where[key] = value}
+    })
 
     const [result, total] = await Promise.all([
       User.findAll({
-        where: params,
+        where
       }),
-      User.count({ where: params }),
+      User.count({ where }),
     ]);
 
     res.status(200).send({ result, total });

@@ -1,31 +1,22 @@
 import { getWsVal, idVal, postWsVal, putWsVal } from '../validations/index.js';
 import { Workspace } from '../models/index.js';
-import { Op } from 'sequelize';
 import { findById } from '../helpers/index.js';
 
 export const getWorkspace = async (req, res) => {
   try {
-    const {
-      query: { id, userId },
-    } = req;
-
     await getWsVal.validateAsync(req.query);
 
-    const params =
-      id && !userId
-        ? { id }
-        : userId && !id
-        ? { userId }
-        : userId && id
-        ? { [Op.or]: { userId, id } }
-        : {};
+    let where = {}
+    Object.entries(req.query).map(([key, value]) => {
+      if (value) {where[key] = value}
+    })
 
     const [result, total] = await Promise.all([
       Workspace.findAll({
-        where: params,
+        where
       }),
       Workspace.count({
-        where: params,
+        where
       }),
     ]);
 
