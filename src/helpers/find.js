@@ -1,10 +1,8 @@
 /* eslint-disable no-unused-vars */
-import { User, Workspace } from '../models/index.js';
+import { User, Workspace, Projects } from '../models/index.js';
 
 export const findById = async (mod, value) => {
   try {
-    console.log(value);
-
     const result = await eval(mod).findOne({
       where: {
         id: value,

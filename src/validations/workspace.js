@@ -3,6 +3,7 @@ import Joi from "joi";
 export const getWsVal = Joi.object({
   id: Joi
   .number()
+.integer()
   .optional(),
   user: Joi
   .number()
@@ -24,6 +25,7 @@ export const postWsVal = Joi.object({
 export const putWsVal = Joi.object({
   id: Joi
   .number()
+.integer()
   .optional(),
   name: Joi
   .string()

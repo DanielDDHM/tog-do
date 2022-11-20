@@ -3,6 +3,7 @@ import Joi from "joi";
 export const getUserVal = Joi.object({
   id: Joi
   .number()
+.integer()
   .optional(),
   email: Joi.string()
   .email({minDomainSegments: 2, tlds: ['com', 'net']})

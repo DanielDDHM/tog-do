@@ -6,14 +6,16 @@ export const getUser = async (req, res) => {
   try {
     await getUserVal.validateAsync(req.query);
 
-    let where = {}
+    let where = {};
     Object.entries(req.query).map(([key, value]) => {
-      if (value) {where[key] = value}
-    })
+      if (value) {
+        where[key] = value;
+      }
+    });
 
     const [result, total] = await Promise.all([
       User.findAll({
-        where
+        where,
       }),
       User.count({ where }),
     ]);
@@ -56,7 +58,9 @@ export const putUser = async (req, res) => {
       params: { id },
     } = req;
 
-    await putUserVal.validateAsync({ name, email, password, photo, id });
+    const data = { name, email, password, photo, id: Number(id) };
+
+    await putUserVal.validateAsync(data);
 
     const result = await User.update(
       {
@@ -66,9 +70,9 @@ export const putUser = async (req, res) => {
         photo,
       },
       { where: { id } },
-    );
+    ).then(() => findById('User', id));
 
-    res.status(200).send({ message: `User ${result} has Been Updated` });
+    res.status(200).send(result);
   } catch (error) {
     res.status(500).send(error?.message);
   }
@@ -84,7 +88,9 @@ export const patchUser = async (req, res) => {
 
     const user = await findById('User', id);
 
-    const result = await User.update({ isActive: !user.isActive }, { where: { id } });
+    const result = await User.update({ isActive: !user.isActive }, { where: { id } }).then(() =>
+      findById('User', id),
+    );
 
     res.status(200).send(result);
   } catch (error) {

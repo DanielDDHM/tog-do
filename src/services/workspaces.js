@@ -6,23 +6,24 @@ export const getWorkspace = async (req, res) => {
   try {
     await getWsVal.validateAsync(req.query);
 
-    let where = {}
+    let where = {};
     Object.entries(req.query).map(([key, value]) => {
-      if (value) {where[key] = value}
-    })
+      if (value) {
+        where[key] = value;
+      }
+    });
 
     const [result, total] = await Promise.all([
       Workspace.findAll({
-        where
+        where,
       }),
       Workspace.count({
-        where
+        where,
       }),
     ]);
 
     res.status(200).send({ result, total });
   } catch (error) {
-    console.log(error);
     res.status(500).send(error);
   }
 };
@@ -61,9 +62,9 @@ export const putWorkspace = async (req, res) => {
         board_type: boardType,
       },
       { where: { id } },
-    );
+    ).then(() => findById('Workspace', id));
 
-    res.status(200).send({ message: `Workspace ${result} has Been Updated` });
+    res.status(200).send(result);
   } catch (error) {
     res.status(500).send(error?.message);
   }
@@ -79,7 +80,10 @@ export const patchWorkspace = async (req, res) => {
 
     const workspace = await findById('Workspace', id);
 
-    const result = await Workspace.update({ isActive: !workspace.isActive }, { where: { id } });
+    const result = await Workspace.update(
+      { isActive: !workspace.isActive },
+      { where: { id } },
+    ).then(() => findById('Workspace', id));
 
     res.status(200).send(result);
   } catch (error) {
@@ -98,7 +102,7 @@ export const deleteWorkspace = async (req, res) => {
     const workspace = await findById('Workspace', id);
 
     if (!workspace) {
-      throw new Error('User Dont Exists');
+      throw new Error('Workspace Dont Exists');
     }
 
     await Workspace.destroy({ where: { id } });
